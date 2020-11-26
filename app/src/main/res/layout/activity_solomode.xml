@@ -19,7 +19,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:layout_margin="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -30,6 +30,7 @@
 
     <LinearLayout
         android:layout_below="@+id/chat"
+        android:id="@+id/buttonPanel1"
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_width="match_parent"
@@ -45,13 +46,69 @@
             android:layout_height="60dp"/>
         <Button
             android:id="@+id/btn_yes"
-            android:text="GOOD MOVE"
+            android:text="DO IT"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="60dp"/>
+
     </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/buttonPanel1"
+            android:id="@+id/buttonPanel2"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/btn_answ"
+            android:text="Answer"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+
+            android:layout_height="40dp"/>
+
+        <Button
+            android:id="@+id/btn_quest"
+            android:text="Question"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/edittext"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+
+            android:background="@color/colorAccent">
+
+            <com.example.who_am_i.DelayAutoCompleteTextView
+                android:id="@+id/text"
+                android:inputType="textCapSentences"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="32dp"
+                android:imeOptions="flagNoExtractUi|actionSearch"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="16dp"
+                android:visibility="gone"/>
+        </FrameLayout>
+
     </RelativeLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

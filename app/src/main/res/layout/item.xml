@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="8dp"
         android:layout_margin="6dp"
         android:background="@drawable/rounded_shape"
 
