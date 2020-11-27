@@ -2,6 +2,7 @@ package com.example.who_am_i;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,7 +44,13 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
+    }
     public void Log_out() {
         user.reset(new User(null));
         Intent intent = new Intent(MenuActivity.this,MainActivity.class);

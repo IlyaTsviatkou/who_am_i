@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -35,6 +37,8 @@ import java.util.Random;
 public class SoloModeActivity extends AppCompatActivity {
     public static int radioAorQ = 0;
     public static int radioTurn = 0;
+    public  int qPos=-1;
+    public String answer,answerCode;
     FirebaseDatabase database;
     DatabaseReference result;
 
@@ -49,6 +53,7 @@ public class SoloModeActivity extends AppCompatActivity {
         questionsList = getQuestions();
         answerList = getAnswerStrings();
 
+
        /* for (int i=0;i<10;i++) {
             messagesList.add(""+i);
         }*/
@@ -61,10 +66,10 @@ public class SoloModeActivity extends AppCompatActivity {
 
         Button no = findViewById(R.id.btn_no);
         Button yes = findViewById(R.id.btn_yes);
-        final Button answer = findViewById(R.id.btn_answ);
-        final Button question = findViewById(R.id.btn_quest);
+        final Button answerbtn = findViewById(R.id.btn_answ);
+        final Button questionbtn = findViewById(R.id.btn_quest);
 
-        answer.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
+        answerbtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
 
         final DelayAutoCompleteTextView text = (DelayAutoCompleteTextView) findViewById(R.id.text);
         text.setThreshold(4);
@@ -74,6 +79,7 @@ public class SoloModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String question = (String) adapterView.getItemAtPosition(position);
+                qPos=position;
                 text.setText(question);
             }
         });
@@ -81,38 +87,64 @@ public class SoloModeActivity extends AppCompatActivity {
         no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messagesList.add("BAD MOOOOOVE");
-                messagesList.add("NOOO");
-                adapter.notifyDataSetChanged();
+
+                //adapter.notifyDataSetChanged();
             }
         });
 
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messagesList.add("GOOOD");
-                messagesList.add("YEEES");
-                adapter.notifyDataSetChanged();
+                if(!text.getText().toString().equals(""))
+                {
+                messagesList.add(text.getText().toString());
+                if(radioAorQ==1) {
+                    if(qPos>=0) {
+                        if (answerCode.charAt(qPos) == '1')
+                            messagesList.add("YES");
+                        else
+                            messagesList.add("NO");
+                        qPos=-1;
+                    }
+                    else
+                    {
+                        messagesList.add("NO");
+                    }
+                }
+                else
+                {
+
+                    if(text.getText().toString().equals(answer)) {
+                        Toast.makeText(SoloModeActivity.this,"Correct, u won",Toast.LENGTH_SHORT);
+                        finish();
+                        //messagesList.add("Correct");
+                    }
+                    else
+                        messagesList.add("Answer is incorrect");
+
+                }
+                text.setText("");
+                adapter.notifyDataSetChanged();}
             }
         });
 
-        answer.setOnClickListener(new View.OnClickListener() {
+        answerbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                question.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
-                answer.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
+                questionbtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                answerbtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
                 text.setAdapter(new AutoCompleteAdapter(SoloModeActivity.this,answerList));
                 radioAorQ = 0;
             }
         });
 
-        question.setOnClickListener(new View.OnClickListener() {
+        questionbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                question.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
-                answer.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                questionbtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent2));
+                answerbtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
                 text.setAdapter(new AutoCompleteAdapter(SoloModeActivity.this,questionsList));
                 radioAorQ = 1;
             }
@@ -151,17 +183,20 @@ public class SoloModeActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         result = database.getReference("Word");
         final ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> list2 = new ArrayList<>();
         result.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getChildren()!=null)
                     for(DataSnapshot ds : snapshot.getChildren()) {
                         list.add(ds.getKey().toString());
-
+                        list2.add(ds.getValue(String.class));
                     }
                 Log.d("TAG", list.get(0));
                 // Questions questions = snapshot.child().getValue(Questions.class);
-
+                int a = new Random().nextInt(list.size()-1);
+                answer = list.get(a);
+                answerCode = list2.get(a);
             }
 
 
@@ -170,6 +205,8 @@ public class SoloModeActivity extends AppCompatActivity {
 
             }
         });
+
         return list;
     }
+
 }
