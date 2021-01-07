@@ -16,6 +16,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat"
         android:layout_width="match_parent"
@@ -38,8 +39,8 @@
         android:layout_margin="8dp">
 
         <Button
-            android:id="@+id/btn_no"
-            android:text="BAD MOVE"
+            android:id="@+id/btn_delete"
+            android:text="CLOSE"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -106,6 +107,16 @@
                 android:visibility="gone"/>
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/gameid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:textAlignment="center"
+            android:text="Game#"
+            android:textColor="@color/colorGrey"
+            android:gravity="center_horizontal"></TextView>
     </RelativeLayout>
 
 

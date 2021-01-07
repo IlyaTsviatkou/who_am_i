@@ -54,6 +54,21 @@
                 android:layout_weight="1"
                 android:text="With judge" />
 
+            <EditText
+                android:id="@+id/textid"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="GameID"
+                android:textColorHint="@color/colorGrey"
+                ></EditText>
+            <Button
+                android:id="@+id/btn_join"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="Join" />
+
         </LinearLayout>
         <Button
             android:id="@+id/log_out"
